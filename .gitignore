@@ -1,0 +1,11 @@
+# Project exclude paths
+#IntelliJ
+.idea/
+
+#Local config
+*.iml
+*.iws
+
+#Maven
+log/
+target/
