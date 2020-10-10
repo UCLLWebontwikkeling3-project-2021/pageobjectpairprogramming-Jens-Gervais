@@ -14,12 +14,17 @@ public class Login extends RequestHandler {
         String userId = request.getParameter("userId");
         Person person = service.get(userId.toLowerCase());
 
-        if (person == null) {
+        if(person == null)
+        {
             request.setAttribute("errorLogin", "Invalid account");
-        } else if (person.isCorrectPassword(request.getParameter("password"))) {
+        }
+        else if(person.isCorrectPassword(request.getParameter("password")))
+        {
             HttpSession session = request.getSession();
             session.setAttribute("personLogin", person);
-        } else {
+        }
+        else
+        {
             request.setAttribute("errorLogin", "Invalid account");
         }
         return "/Controller?command=Home";
