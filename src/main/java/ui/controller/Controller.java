@@ -1,7 +1,6 @@
 package ui.controller;
 
-import domain.db.PersonService;
-import domain.model.ContactTracingService;
+import domain.db.SqlDataBase;
 
 
 import javax.servlet.ServletException;
@@ -16,7 +15,7 @@ public class Controller extends javax.servlet.http.HttpServlet {
         super();
     }
 
-    private PersonService service = new PersonService();
+    private SqlDataBase service = new SqlDataBase();
     private HandlerFactory handlerFactory = new HandlerFactory();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

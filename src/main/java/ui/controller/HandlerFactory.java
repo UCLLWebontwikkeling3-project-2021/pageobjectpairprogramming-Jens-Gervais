@@ -1,10 +1,9 @@
 package ui.controller;
 
-import domain.db.PersonService;
-import domain.model.ContactTracingService;
+import domain.db.SqlDataBase;
 
 public class HandlerFactory {
-    public RequestHandler getHandler(String command, PersonService service)
+    public RequestHandler getHandler(String command, SqlDataBase service)
     {
         RequestHandler handler = null;
 

@@ -14,7 +14,7 @@
             <li><a href="Controller">Home</a></li>
             <li><a href="Controller?command=Overview">Overview</a></li>
             <li><a href="Controller?command=RegisterPage">Register</a></li>
+            <li><a href="Controller?command=Contacts">Contacts</a></li>
         </ul>
     </nav>
-
 </header>

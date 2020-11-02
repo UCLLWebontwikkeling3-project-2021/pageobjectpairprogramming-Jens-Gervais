@@ -1,5 +1,9 @@
 package domain.model;
 
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -96,5 +100,19 @@ public class Person {
 	@Override
 	public String toString(){
 		return getFirstName() + " " + getLastName() + ": " + getUserid() + ", " + getEmail();
-	}	
+	}
+
+	public String getHashedPassword() throws UnsupportedEncodingException, NoSuchAlgorithmException {
+		return hashPassword(this.password);
+	}
+
+	private String hashPassword(String passwd) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+		MessageDigest crypt = MessageDigest.getInstance("SHA-512");
+		crypt.reset();
+		byte[] passwordBytes = passwd.getBytes("UTF-8");
+		crypt.update(passwordBytes);
+		byte[] digest = crypt.digest();
+		BigInteger digestAsBigInteger = new BigInteger(1, digest);
+		return digestAsBigInteger.toString(16);
+	}
 }
