@@ -145,4 +145,15 @@ public class SqlDataBase {
             throw new DbException(e.getMessage(), e);
         }
     }
+
+    public void autoDeleteContacts()
+    {
+        String sql = String.format("DELETE FROM %s.bezoek WHERE date < date_trunc('day', now() - interval '1 month')", this.schema);
+        try {
+            PreparedStatement statementSql = connection.prepareStatement(sql);
+            statementSql.execute();
+        } catch (SQLException e) {
+            throw new DbException(e.getMessage(), e);
+        }
+    }
 }
