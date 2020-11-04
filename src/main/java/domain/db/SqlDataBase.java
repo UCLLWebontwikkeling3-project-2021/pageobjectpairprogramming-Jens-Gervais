@@ -71,7 +71,7 @@ public class SqlDataBase {
     }
 
     public List<Person> getAll() {
-        List<Person> people = new ArrayList<Person>();
+        List<Person> people = new ArrayList<>();
         String sql = String.format("SELECT * FROM %s.gebruiker", this.schema);
         try
         {
