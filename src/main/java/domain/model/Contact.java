@@ -1,7 +1,9 @@
 package domain.model;
 
+import java.sql.Date;
 import java.sql.Time;
-import java.util.Date;
+import java.sql.Timestamp;
+import java.time.LocalTime;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,18 +13,24 @@ public class Contact {
     private String telefoonnummer;
     private String firstName;
     private String lastName;
-    private Date datum;
-    private Time aankomstuur;
+    private Timestamp timestamp;
 
-    public Contact(String userid, String email, String telefoonnummer, String firstName, String lastName, Date datum, Time aankomstuur)
+    public Contact(String userid, String email, String telefoonnummer, String firstName, String lastName, Timestamp timestamp)
     {
         setUserid(userid);
         setEmail(email);
         setTelefoonnummer(telefoonnummer);
         setFirstName(firstName);
         setLastName(lastName);
-        setDatum(datum);
-        setAankomstuur(aankomstuur);
+        setTimestamp(timestamp);
+    }
+
+    public void setTimestamp(Timestamp timestamp) {
+        if(timestamp == null)
+        {
+            throw new IllegalArgumentException("Geen timestamp gegeven");
+        }
+        this.timestamp = timestamp;
     }
 
     public Contact(){}
@@ -47,45 +55,21 @@ public class Contact {
         return lastName;
     }
 
-    public Date getDatum() {
-        return datum;
-    }
-
-    public Time getAankomstuur() {
-        return aankomstuur;
-    }
-
-    private void setAankomstuur(Time aankomstuur) {
-        if(aankomstuur == null)
-        {
-            throw new IllegalArgumentException("No time given");
-        }
-        this.aankomstuur = aankomstuur;
-    }
-
-    private void setDatum(Date datum) {
-        if(datum == null || datum.after(java.util.Calendar.getInstance().getTime()))
-        {
-            throw new IllegalArgumentException("No date given");
-        }
-        this.datum = datum;
-    }
-
-    private void setLastName(String lastName) {
+    public void setLastName(String lastName) {
         if(lastName == null || lastName.trim().isEmpty()){
             throw new IllegalArgumentException("No last name given");
         }
         this.lastName = lastName;
     }
 
-    private void setFirstName(String firstName) {
+    public void setFirstName(String firstName) {
         if(firstName== null || firstName.trim().isEmpty()){
             throw new IllegalArgumentException("No firstname given");
         }
         this.firstName = firstName;
     }
 
-    private void setTelefoonnummer(String telefoonnummer) {
+    public void setTelefoonnummer(String telefoonnummer) {
         if(telefoonnummer == null || telefoonnummer.trim().isEmpty())
         {
             throw new IllegalArgumentException("No phone number given");
@@ -93,7 +77,7 @@ public class Contact {
         this.telefoonnummer = telefoonnummer;
     }
 
-    private void setEmail(String email) {
+    public void setEmail(String email) {
         if(email == null ||email.trim().isEmpty()){
             throw new IllegalArgumentException("No email given");
         }
@@ -108,10 +92,14 @@ public class Contact {
         this.email = email;
     }
 
-    private void setUserid(String userid) {
+    public void setUserid(String userid) {
         if(userid == null || userid.trim().isEmpty()){
             throw new IllegalArgumentException("No userid given");
         }
         this.userid = userid;
+    }
+
+    public Timestamp getTimestamp() {
+        return timestamp;
     }
 }

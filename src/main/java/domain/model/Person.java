@@ -61,11 +61,11 @@ public class Person {
 		return password;
 	}
 	
-	public boolean isCorrectPassword(String password) {
+	public boolean isCorrectPassword(String password) throws UnsupportedEncodingException, NoSuchAlgorithmException {
 		if(password.isEmpty()){
 			throw new IllegalArgumentException("No password given");
 		}
-		return getPassword().equals(password);
+		return getHashedPassword().equals(hashPassword(password));
 	}
 
 	public void setPassword(String password) {
@@ -100,6 +100,10 @@ public class Person {
 	@Override
 	public String toString(){
 		return getFirstName() + " " + getLastName() + ": " + getUserid() + ", " + getEmail();
+	}
+
+	public String getHashedPassword(String password) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+		return hashPassword(password);
 	}
 
 	public String getHashedPassword() throws UnsupportedEncodingException, NoSuchAlgorithmException {

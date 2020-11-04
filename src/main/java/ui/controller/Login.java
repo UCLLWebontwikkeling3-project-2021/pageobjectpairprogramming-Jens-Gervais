@@ -5,12 +5,12 @@ import domain.model.Person;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.swing.*;
-import java.util.ArrayList;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 
 public class Login extends RequestHandler {
     @Override
-    public String handleRequest(HttpServletRequest request, HttpServletResponse response) {
+    public String handleRequest(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         String userId = request.getParameter("userId");
         Person person = service.get(userId.toLowerCase());
 
@@ -25,6 +25,7 @@ public class Login extends RequestHandler {
         }
         else
         {
+            System.out.println("Fuck off");
             request.setAttribute("errorLogin", "Invalid account");
         }
         return "/Controller?command=Home";

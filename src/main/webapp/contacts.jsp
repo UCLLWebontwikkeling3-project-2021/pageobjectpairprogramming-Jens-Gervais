@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%--
   Created by IntelliJ IDEA.
   User: jensg
@@ -33,13 +34,63 @@
                         </tr>
                         <c:forEach var="contact" items="${contacts}">
                             <tr>
-                                <td>${contact.getDatum()}</td>
-                                <td>${contact.getAankomstuur()}</td>
+                                <td>
+                                    <fmt:formatDate pattern="yyyy-MM-dd" value="${contact.timestamp}"/>
+                                </td>
+                                <td>
+                                    <fmt:formatDate pattern="HH:mm" value="${contact.timestamp}"/>
+                                </td>
                                 <td>${contact.getFirstName()} ${contact.getLastName()}</td>
+                                <td><a href="Controller?command=DeleteContactPage&ContactId=${contact.getUserid()}">Verwijder</a></td>
                             </tr>
                         </c:forEach>
                     </table>
                 </c:if>
+
+                <c:if test="${not empty contactErrors}">
+                    <div class="alert alert-danger">
+                        <c:forEach var="error" items="${contactErrors}">
+                            <ul>
+                                <li>${error}</li>
+                            </ul>
+                        </c:forEach>
+                    </div>
+                </c:if>
+
+
+                <form action="Controller?command=AddContact" method="post">
+                    <p>
+                        <label for="userIdContact">User id</label>
+                        <input type="text" id="userIdContact" name="userIdContact" value="${previousIdContact}">
+                    </p>
+                    <p>
+                        <label for="firstNameContact">First Name</label>
+                        <input type="text" id="firstNameContact" name="firstNameContact" value="${previousFirstNameContact}">
+                    </p>
+                    <p>
+                        <label for="lastNameContact">Last Name</label>
+                        <input type="text" id="lastNameContact" name="lastNameContact" value="${previousLastNameContact}">
+                    </p>
+                    <p>
+                        <label for="emailContact">Email</label>
+                        <input type="email" id="emailContact" name="emailContact" value="${previousEmailContact}">
+                    </p>
+                    <p>
+                        <label for="telefoonnummerContact">Telefoonnummer</label>
+                        <input type="tel" id="telefoonnummerContact" name="telefoonnummerContact" value="${previousTelefoonnummerContact}">
+                    </p>
+                    <p>
+                        <label for="datumContact">Datum</label>
+                        <input type="date" id="datumContact" name="datumContact" value="${previousDatumContact}">
+                    </p>
+                    <p>
+                        <label for="tijdstipContact">Tijdstip</label>
+                        <input type="time" id="tijdstipContact" name="tijdstipContact" value="${previousTijdstipContact}">
+                    </p>
+                    <p>
+                        <input type="submit" id="signUp" value="Register contact">
+                    </p>
+                </form>
             </main>
             <footer>
                 &copy; Webontwikkeling 3, UC Leuven-Limburg

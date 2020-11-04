@@ -35,6 +35,7 @@ public class Controller extends javax.servlet.http.HttpServlet {
                 destination = handler.handleRequest(request, response);
             } catch (Exception exc) {
                 request.setAttribute("error", exc.getMessage());
+                System.out.println(exc.getMessage());
                 destination = "error.jsp";
             }
         }

@@ -7,8 +7,8 @@ import domain.model.Person;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
+import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class SqlDataBase {
@@ -22,7 +22,7 @@ public class SqlDataBase {
 
     public void delete(String userId) {
         if(userId == null) throw new DbException("No one to delete");
-        String sql = String.format("DELETE * FROM %s.gebruiker WHERE userid = %s", this.schema, userId);
+        String sql = String.format("DELETE FROM %s.gebruiker WHERE userid = '%s'", this.schema, userId);
         try {
             PreparedStatement statementSql = connection.prepareStatement(sql);
             statementSql.execute();
@@ -107,14 +107,42 @@ public class SqlDataBase {
                 String telefoonnummer = result.getString("telefoonnummer");
                 String firstName = result.getString("voornaam");
                 String lastName = result.getString("familienaam");
-                Date datum = result.getDate("datum");
-                Time aankomstuur = result.getTime("aankomstuur");
-                Contact contact = new Contact(userid, email, telefoonnummer, firstName, lastName, datum, aankomstuur);
+                Timestamp timestamp = result.getTimestamp("date");
+                Contact contact = new Contact(userid, email, telefoonnummer, firstName, lastName, timestamp);
                 contacts.add(contact);
             }
         } catch (SQLException e) {
             throw new DbException(e.getMessage(), e);
         }
         return contacts;
+    }
+
+    public void addContact(Contact newContact) {
+        if (newContact == null) throw new DbException("No one to add");
+        String sql = String.format("INSERT INTO %s.bezoek (person_id, voornaam, familienaam, emailadres, telefoonnummer, date) VALUES (?, ?, ?, ?, ?, ?)", this.schema);
+        try
+        {
+            PreparedStatement statementSql = connection.prepareStatement(sql);
+            statementSql.setString(1, newContact.getUserid());
+            statementSql.setString(2, newContact.getFirstName());
+            statementSql.setString(3, newContact.getLastName());
+            statementSql.setString(4, newContact.getEmail());
+            statementSql.setString(5, newContact.getTelefoonnummer());
+            statementSql.setObject(6, newContact.getTimestamp());
+            statementSql.execute();
+        } catch (SQLException e) {
+            throw new DbException(e.getMessage(), e);
+        }
+    }
+
+    public void deleteContact(String userId) {
+        if(userId == null) throw new DbException("No contact to delete");
+        String sql = String.format("DELETE FROM %s.bezoek WHERE person_id = '%s'", this.schema, userId);
+        try {
+            PreparedStatement statementSql = connection.prepareStatement(sql);
+            statementSql.execute();
+        } catch (SQLException e) {
+            throw new DbException(e.getMessage(), e);
+        }
     }
 }
