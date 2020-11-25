@@ -1,6 +1,6 @@
 package ui.controller;
 
-import domain.db.SqlDataBase;
+import domain.service.SqlDataBase;
 
 public class HandlerFactory {
     public RequestHandler getHandler(String command, SqlDataBase service)

@@ -1,6 +1,6 @@
 package ui.controller;
 
-import domain.db.SqlDataBase;
+import domain.service.SqlDataBase;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

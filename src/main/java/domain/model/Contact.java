@@ -8,6 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Contact {
+    private int id;
     private String userid;
     private String email;
     private String telefoonnummer;
@@ -15,8 +16,9 @@ public class Contact {
     private String lastName;
     private Timestamp timestamp;
 
-    public Contact(String userid, String email, String telefoonnummer, String firstName, String lastName, Timestamp timestamp)
+    public Contact(int id, String userid, String email, String telefoonnummer, String firstName, String lastName, Timestamp timestamp)
     {
+        this.id = id;
         setUserid(userid);
         setEmail(email);
         setTelefoonnummer(telefoonnummer);
@@ -31,6 +33,11 @@ public class Contact {
             throw new IllegalArgumentException("Geen timestamp gegeven");
         }
         this.timestamp = timestamp;
+    }
+
+    public int getId()
+    {
+        return id;
     }
 
     public Contact(){}

@@ -33,6 +33,7 @@
                             <th>Name</th>
                         </tr>
                         <c:forEach var="contact" items="${contacts}">
+                            <c:if test="${contact.getUserid() == personLogin.getUserid() || personLogin.getUserid() == 'admin'}">
                             <tr>
                                 <td>
                                     <fmt:formatDate pattern="yyyy-MM-dd" value="${contact.timestamp}"/>
@@ -41,8 +42,9 @@
                                     <fmt:formatDate pattern="HH:mm" value="${contact.timestamp}"/>
                                 </td>
                                 <td>${contact.getFirstName()} ${contact.getLastName()}</td>
-                                <td><a href="Controller?command=DeleteContactPage&ContactId=${contact.getUserid()}">Verwijder</a></td>
+                                <td><a href="Controller?command=DeleteContactPage&ContactId=${contact.getId()}">Verwijder</a></td>
                             </tr>
+                            </c:if>
                         </c:forEach>
                     </table>
                 </c:if>
@@ -58,11 +60,7 @@
                 </c:if>
 
 
-                <form action="Controller?command=AddContact" method="post">
-                    <p>
-                        <label for="userIdContact">User id</label>
-                        <input type="text" id="userIdContact" name="userIdContact" value="${previousIdContact}">
-                    </p>
+                <form action="Controller?command=AddContact&LoggedInUseridContact=${personLogin.getUserid()}" method="post">
                     <p>
                         <label for="firstNameContact">First Name</label>
                         <input type="text" id="firstNameContact" name="firstNameContact" value="${previousFirstNameContact}">

@@ -63,7 +63,7 @@ public class AddContact extends RequestHandler {
             dateTime=LocalDateTime.from(formatter.parse(datumContact+" "+tijdstipContact));
             timestamp=Timestamp.valueOf(dateTime);
         }catch(DateTimeException e){
-            errors.add("date or hour invalid");
+            errors.add(e.getMessage());
         }
         newContact.setTimestamp(timestamp);
     }
@@ -125,7 +125,9 @@ public class AddContact extends RequestHandler {
     }
 
     private void setUserId(Contact newContact, HttpServletRequest request, ArrayList<String> errors) {
-        String userId = request.getParameter("userIdContact");
+        String userId = request.getParameter("LoggedInUseridContact");
+
+        if(userId == null || userId.trim().isEmpty()) userId = "admin";
 
         try
         {

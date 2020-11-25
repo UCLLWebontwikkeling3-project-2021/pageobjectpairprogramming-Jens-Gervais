@@ -28,7 +28,7 @@
                                 <td>${person.email}</td>
                                 <td>${person.firstName}</td>
                                 <td>${person.lastName}</td>
-                                <c:if test="${person==personLogin}">
+                                <c:if test="${person.userid==personLogin.userid}">
                                     <td><a href="Controller?command=DeletePage">Verwijder</a></td>
                                 </c:if>
                             </tr>

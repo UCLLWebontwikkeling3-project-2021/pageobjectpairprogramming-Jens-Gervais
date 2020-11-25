@@ -13,7 +13,6 @@ public class Login extends RequestHandler {
     public String handleRequest(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         String userId = request.getParameter("userId");
         Person person = service.get(userId.toLowerCase());
-
         if(person == null)
         {
             request.setAttribute("errorLogin", "Invalid account");
@@ -25,7 +24,6 @@ public class Login extends RequestHandler {
         }
         else
         {
-            System.out.println("Fuck off");
             request.setAttribute("errorLogin", "Invalid account");
         }
         return "/Controller?command=Home";

@@ -1,5 +1,6 @@
-package domain.db;
+package domain.service;
 
+import domain.db.DbException;
 import domain.db.util.DbConnectionService;
 import domain.model.Contact;
 import domain.model.Person;
@@ -7,7 +8,6 @@ import domain.model.Person;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,9 +22,10 @@ public class SqlDataBase {
 
     public void delete(String userId) {
         if(userId == null) throw new DbException("No one to delete");
-        String sql = String.format("DELETE FROM %s.gebruiker WHERE userid = '%s'", this.schema, userId);
+        String sql = String.format("DELETE FROM %s.gebruiker WHERE userid = ?", this.schema);
         try {
             PreparedStatement statementSql = connection.prepareStatement(sql);
+            statementSql.setString(1, userId);
             statementSql.execute();
         } catch (SQLException e) {
             throw new DbException(e.getMessage(), e);
@@ -33,10 +34,11 @@ public class SqlDataBase {
 
     public Person get(String userId) {
         Person person = null;
-        String sql = String.format("SELECT * FROM %s.gebruiker WHERE userid = %s", this.schema, userId);
+        String sql = String.format("SELECT * FROM %s.gebruiker WHERE userid = ?", this.schema);
         try
         {
             PreparedStatement statementSql = connection.prepareStatement(sql);
+            statementSql.setString(1, userId);
             ResultSet result = statementSql.executeQuery();
             while (result.next())
             {
@@ -55,6 +57,13 @@ public class SqlDataBase {
 
     public void add(Person newPerson) {
         if (newPerson == null) throw new DbException("No one to add");
+        List<Person> people = getAll();
+        for (Person person:people) {
+            if(person.getUserid().equals(newPerson.getUserid()))
+            {
+                throw new DbException("User already exists");
+            }
+        }
         String sql = String.format("INSERT INTO %s.gebruiker (userid, emailadres, wachtwoord, voornaam, familienaam) VALUES (?, ?, ?, ?, ?)", this.schema);
         try
         {
@@ -95,6 +104,7 @@ public class SqlDataBase {
 
     public List<Contact> getAllContacts() {
         List<Contact> contacts = new ArrayList<>();
+        int id;
         String sql = String.format("SELECT * FROM %s.bezoek", this.schema);
         try
         {
@@ -102,13 +112,14 @@ public class SqlDataBase {
             ResultSet result = statementSql.executeQuery();
             while (result.next())
             {
+                id = result.getInt("id");
                 String userid = result.getString("person_id");
                 String email = result.getString("emailadres");
                 String telefoonnummer = result.getString("telefoonnummer");
                 String firstName = result.getString("voornaam");
                 String lastName = result.getString("familienaam");
                 Timestamp timestamp = result.getTimestamp("date");
-                Contact contact = new Contact(userid, email, telefoonnummer, firstName, lastName, timestamp);
+                Contact contact = new Contact(id, userid, email, telefoonnummer, firstName, lastName, timestamp);
                 contacts.add(contact);
             }
         } catch (SQLException e) {
@@ -135,11 +146,12 @@ public class SqlDataBase {
         }
     }
 
-    public void deleteContact(String userId) {
-        if(userId == null) throw new DbException("No contact to delete");
-        String sql = String.format("DELETE FROM %s.bezoek WHERE person_id = '%s'", this.schema, userId);
+    public void deleteContact(String Id) {
+        if(Id == null) throw new DbException("No contact to delete");
+        String sql = String.format("DELETE FROM %s.bezoek WHERE id = ?::INTEGER", this.schema);
         try {
             PreparedStatement statementSql = connection.prepareStatement(sql);
+            statementSql.setString(1, Id);
             statementSql.execute();
         } catch (SQLException e) {
             throw new DbException(e.getMessage(), e);
@@ -151,6 +163,20 @@ public class SqlDataBase {
         String sql = String.format("DELETE FROM %s.bezoek WHERE date < date_trunc('day', now() - interval '1 month')", this.schema);
         try {
             PreparedStatement statementSql = connection.prepareStatement(sql);
+            statementSql.execute();
+        } catch (SQLException e) {
+            throw new DbException(e.getMessage(), e);
+        }
+    }
+
+    public void registerTestResult(String userId, Date date)
+    {
+        if(userId == null) throw new DbException("No one to register test result for");
+        String sql = String.format("UPDATE %s.gebruiker SET positief = 'positief', datumpositief = ? WHERE userid = ?;", this.schema);
+        try {
+            PreparedStatement statementSql = connection.prepareStatement(sql);
+            statementSql.setDate(1, date);
+            statementSql.setString(2, userId);
             statementSql.execute();
         } catch (SQLException e) {
             throw new DbException(e.getMessage(), e);

@@ -57,7 +57,7 @@ public class Person {
 		return email;
 	}
 	
-	private String getPassword() {
+	public String getPassword() {
 		return password;
 	}
 	
@@ -65,7 +65,7 @@ public class Person {
 		if(password.isEmpty()){
 			throw new IllegalArgumentException("No password given");
 		}
-		return getHashedPassword().equals(hashPassword(password));
+		return getPassword().equals(hashPassword(password));
 	}
 
 	public void setPassword(String password) {

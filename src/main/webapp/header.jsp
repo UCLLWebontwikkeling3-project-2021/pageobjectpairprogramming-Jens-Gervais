@@ -15,6 +15,9 @@
             <li><a href="Controller?command=Overview">Overview</a></li>
             <li><a href="Controller?command=RegisterPage">Register</a></li>
             <li><a href="Controller?command=Contacts">Contacts</a></li>
+            <c:if test="${not empty personLogin}">
+                <li><a href="Controller?command=RegisterTestResultPage">Register test</a></li>
+            </c:if>
         </ul>
     </nav>
 </header>
