@@ -13,6 +13,8 @@ public class Person {
 	private String password;
 	private String firstName;
 	private String lastName;
+	private String rol;
+	private String test;
 
 	public Person(String userid, String email, String password, String firstName, String lastName) {
 		setUserid(userid);
@@ -20,6 +22,42 @@ public class Person {
 		setPassword(password);
 		setFirstName(firstName);
 		setLastName(lastName);
+	}
+
+	public Person(String userid, String email, String password, String firstName, String lastName, String rol, String test) {
+		setUserid(userid);
+		setEmail(email);
+		setPassword(password);
+		setFirstName(firstName);
+		setLastName(lastName);
+		setRol(rol);
+		setTest(test);
+	}
+
+	private void setTest(String test) {
+		if(test.isEmpty())
+		{
+			throw new IllegalArgumentException("No test result");
+		}
+		this.test = test;
+	}
+
+	public String getTest()
+	{
+		return test;
+	}
+
+	private void setRol(String rol)
+	{
+		if(rol.isEmpty()){
+			throw new IllegalArgumentException("No userid given");
+		}
+		this.rol = rol;
+	}
+
+	public String getRol()
+	{
+		return rol;
 	}
 	
 	public Person() {

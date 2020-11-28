@@ -17,6 +17,10 @@
             <li><a href="Controller?command=Contacts">Contacts</a></li>
             <c:if test="${not empty personLogin}">
                 <li><a href="Controller?command=RegisterTestResultPage">Register test</a></li>
+                <li><a href="Controller?command=Search">Search</a></li>
+                <c:if test="${personLogin.getRol() == 'admin'}">
+                    <li><a href="Controller?command=AlterRolePage">Alter role</a></li>
+                </c:if>
             </c:if>
         </ul>
     </nav>

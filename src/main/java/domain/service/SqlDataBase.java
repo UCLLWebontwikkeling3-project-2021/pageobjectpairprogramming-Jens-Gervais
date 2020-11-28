@@ -47,7 +47,9 @@ public class SqlDataBase {
                 String password = result.getString("wachtwoord");
                 String firstName = result.getString("voornaam");
                 String lastName = result.getString("familienaam");
-                person = new Person(userid, email, password, firstName, lastName);
+                String rol = result.getString("rol");
+                String test = result.getString("positief");
+                person = new Person(userid, email, password, firstName, lastName, rol, test);
             }
         } catch (SQLException e) {
             throw new DbException(e.getMessage(), e);
@@ -93,7 +95,9 @@ public class SqlDataBase {
                 String password = result.getString("wachtwoord");
                 String firstName = result.getString("voornaam");
                 String lastName = result.getString("familienaam");
-                Person person = new Person(userid, email, password, firstName, lastName);
+                String rol = result.getString("rol");
+                String test = result.getString("positief");
+                Person person = new Person(userid, email, password, firstName, lastName, rol, test);
                 people.add(person);
             }
         } catch (SQLException e) {
@@ -177,6 +181,19 @@ public class SqlDataBase {
             PreparedStatement statementSql = connection.prepareStatement(sql);
             statementSql.setDate(1, date);
             statementSql.setString(2, userId);
+            statementSql.execute();
+        } catch (SQLException e) {
+            throw new DbException(e.getMessage(), e);
+        }
+    }
+
+    public void alterRole(String userid, String value) {
+        if(userid == null || value == null) throw new DbException("Invalid values for either userid or value");
+        String sql = String.format("UPDATE %s.gebruiker SET rol = ? WHERE userid = ?", this.schema);
+        try {
+            PreparedStatement statementSql = connection.prepareStatement(sql);
+            statementSql.setString(1, value);
+            statementSql.setString(2, userid);
             statementSql.execute();
         } catch (SQLException e) {
             throw new DbException(e.getMessage(), e);

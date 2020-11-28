@@ -33,7 +33,7 @@
                             <th>Name</th>
                         </tr>
                         <c:forEach var="contact" items="${contacts}">
-                            <c:if test="${contact.getUserid() == personLogin.getUserid() || personLogin.getUserid() == 'admin'}">
+                            <c:if test="${contact.getUserid() == personLogin.getUserid() || personLogin.getRol() == 'admin'}">
                             <tr>
                                 <td>
                                     <fmt:formatDate pattern="yyyy-MM-dd" value="${contact.timestamp}"/>
