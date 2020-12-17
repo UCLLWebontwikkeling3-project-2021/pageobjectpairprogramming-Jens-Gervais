@@ -5,16 +5,16 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-// Lennert Van Oosterwyck r0782485;
+// Lennert Van Oosterwyck r0782485 & Jens Gervais r0782113;
 public class Login_LogoutPage extends Page  {
 
 
-    @FindBy(id="useridLogIn")
+    @FindBy(id="userId")
     private WebElement useridLoginField;
 
 
 
-    @FindBy(id="passwordLogIn")
+    @FindBy(id="password")
     private WebElement passwordLogInField;
 
     @FindBy(id="login")
@@ -22,7 +22,7 @@ public class Login_LogoutPage extends Page  {
 
     public Login_LogoutPage(WebDriver driver){
         super(driver);
-        this.driver.get(getPath()+"?command=LogIn");
+        this.driver.get(getPath()+"Controller?command=Home");
     }
 
 

@@ -18,7 +18,7 @@ public class SeleniumWorksWellTest {
 			//System.setProperty("webdriver.chrome.driver", "/Users/grjon/Desktop/web3/chromedriver");
 			// windows: gebruik dubbele \\ om pad aan te geven
 			// hint: zoek een werkende test op van web 2 maar houd er rekening mee dat Chrome wellicht een upgrade kreeg
-			System.setProperty("webdriver.chrome.driver", "C:\\Users\\lenne\\2TI\\Web3\\chromedriver.exe");
+			System.setProperty("webdriver.chrome.driver", "D:\\UCLL\\Web3\\Selenium+Chromedriver\\Chromedriver\\chromedriver.exe");
 			driver = new ChromeDriver();
 			driver.get("https://nl.wikipedia.org/wiki/Hoofdpagina");
 		}
