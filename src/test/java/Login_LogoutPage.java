@@ -9,7 +9,7 @@ import org.openqa.selenium.support.PageFactory;
 public class Login_LogoutPage extends Page  {
 
 
-    @FindBy(id="userId")
+    @FindBy(id="userid")
     private WebElement useridLoginField;
 
 
@@ -22,7 +22,7 @@ public class Login_LogoutPage extends Page  {
 
     public Login_LogoutPage(WebDriver driver){
         super(driver);
-        this.driver.get(getPath()+"Controller?command=Home");
+        this.driver.get(getPath()+"Controller?command=LoginPage");
     }
 
 
@@ -39,7 +39,7 @@ public class Login_LogoutPage extends Page  {
 
 
     public boolean loginButtonIsPresent(){
-
+        this.driver.get(getPath()+"Controller?command=LoginPage");
         try {
             WebElement webElement = driver.findElement(By.id("login"));
             return true;
@@ -54,7 +54,7 @@ public class Login_LogoutPage extends Page  {
 
     }
     public boolean logOutButtonIsPresent(){
-
+        this.driver.get(getPath()+"Controller?command=Home");
         try {
             WebElement webElement = driver.findElement(By.id("logout"));
             return true;
@@ -64,6 +64,7 @@ public class Login_LogoutPage extends Page  {
     }
 
     public void submitLogOutButton() {
+        this.driver.get(getPath()+"Controller?command=Home");
         WebElement buttonLogin = driver.findElement(By.id("logout"));
         buttonLogin.submit();
 
